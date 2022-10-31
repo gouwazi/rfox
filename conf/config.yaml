@@ -1,0 +1,5 @@
+  ingress:
+  - mode: SocksV4
+    bind_address: 1.1.1.1
+    username: hello
+    password: hello
