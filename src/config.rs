@@ -1,14 +1,14 @@
 use std::io::{Error, ErrorKind};
-use std::{time::Duration, io::Read};
+use std::{io::Read, time::Duration};
 
 use std::fs::File;
 
-use serde::Deserialize;
 use log::{error, info};
+use serde::Deserialize;
 
 use tokio::io;
 
-#[derive(Deserialize, Clone, PartialEq)]
+#[derive(Deserialize, Clone, PartialEq, Debug)]
 pub enum IngressMode {
     Http,
     Https,
@@ -16,7 +16,7 @@ pub enum IngressMode {
     SocksV5,
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug)]
 pub struct IngressConfig {
     pub mode: IngressMode,
     pub bind_address: String,
@@ -26,7 +26,7 @@ pub struct IngressConfig {
 
 #[derive(Deserialize, Clone)]
 pub struct RfoxConfig {
-    pub ingress: Vec<IngressConfig>
+    pub ingress: Vec<IngressConfig>,
 }
 
 impl RfoxConfig {
@@ -49,5 +49,13 @@ impl RfoxConfig {
         })?;
 
         Ok(result)
+    }
+}
+
+impl std::fmt::Debug for RfoxConfig {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("RfoxConfig")
+            .field("ingress", &self.ingress)
+            .finish()
     }
 }

@@ -1,13 +1,13 @@
 extern crate pretty_env_logger;
-#[macro_use] extern crate log;
+#[macro_use]
+extern crate log;
 mod config;
 mod ingress;
 
 use tokio::io;
 
-use tokio::net;
 use crate::config::RfoxConfig;
-
+use tokio::net;
 
 use clap::Parser;
 
@@ -15,9 +15,9 @@ use clap::Parser;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-   /// Name of the person to greet
-   #[arg(short, long, default_value = "./config.yaml")]
-   config: String
+    /// Name of the person to greet
+    #[arg(short, long, default_value = "./config.yaml")]
+    config: String,
 }
 
 #[tokio::main]
@@ -30,6 +30,8 @@ async fn main() -> io::Result<()> {
         error!("Failed to process config {}", e);
         e
     })?;
+
+    print!("Starting rfox with config: {:#?}", rfox_config);
 
     Ok(())
 }
